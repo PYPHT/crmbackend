@@ -79,18 +79,28 @@ const Admin = () => {
                     <h1 className='dark:text-white text-gray-600 font-bold text-2xl'>Add New Admin</h1>
                     <h2 className='dark:text-white text-gray-600 font-semibold'>Enter admin information to save in the CRM</h2>
                 </div>
-                <div className='w-full border-1 my-3 p-3 rounded-lg dark:border-gray-500 border-gray-300 flex items-center'>
-                    <img src={image} alt="" className='w-[120px] h-[120px] rounded-full object-cover' />
-                    <button type='button' onClick={handleButtonClick} className='text-lg font-semibold text-white bg-blue-500 w-auto h-max ml-3 rounded-lg p-2 cursor-pointer hover:bg-blue-600'>
-                        + Add Image
-                        <input
-                            type="file"
-                            accept="image/png, image/jpeg"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                            className="hidden"
-                        />
-                    </button>
+                <div className='w-full border-1 my-3 p-3 rounded-lg dark:border-gray-500 border-gray-300'>
+                    <div className='flex items-center'>
+                        <img src={image} alt="" className='w-[120px] h-[120px] rounded-full object-cover' />
+                        <button type='button' onClick={handleButtonClick} className='text-lg font-semibold text-white bg-blue-500 w-auto h-max ml-3 rounded-lg p-2 cursor-pointer hover:bg-blue-600'>
+                            + Add Image
+                            <input
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                            />
+                        </button>
+                    </div>
+                    <form>
+                        <div className='pt-3 flex'>
+                            <div>
+                                <h3>First Name *</h3>
+                                <input type="text" name="" id="" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
