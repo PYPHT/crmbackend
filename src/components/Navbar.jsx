@@ -4,8 +4,9 @@ import {fadeIn} from '../ultils/motion'
 import {motion} from 'motion/react'
 
 export const Navbar = () => {
-  const [activeLink, setActiveLink] = useState('#admin')
+  const [activeLink, setActiveLink] = useState('#compa')
   const menuItems = [
+    { href: "#compa", label: "MyCompany", icon: <FaIcaons.FaBuildingUser /> },
     { href: "#admin", label: "Admins", icon: <FaIcaons.FaAddressCard /> },
     { href: "#prod", label: "Products", icon: <FaIcaons.FaBoxesStacked /> },
     { href: "#cont", label: "Contacts", icon: <FaIcaons.FaAddressBook /> },
@@ -21,8 +22,8 @@ export const Navbar = () => {
       <motion.div variants={fadeIn('down', 0.4)} initial='hidden' whileInView='show' viewport={{ once: true }}>
         {
           menuItems.map((link, index) => (
-            <button id={index} type="button" className={`cursor-pointer w-full group hover:bg-gray-400 font-semibold text-gray-500 dark:text-gray-300 py-3 pl-5 dark:bg-gray-600 bg-gray-300 ${activeLink == link.href ? 'bg-gray-400 dark:bg-gray-800' : ''}`}>
-              <a href={link.href} onClick={() => setActiveLink(link.href)} className='flex items-center hover:bg-gray-400'>{link.icon} <div className='pl-2'></div> {link.label}</a>
+            <button key={index} type="button" className={`cursor-pointer w-full group hover:bg-gray-400 font-semibold text-gray-500 dark:text-gray-300 py-3 pl-5 dark:bg-gray-600 bg-gray-300 ${activeLink == link.href ? 'bg-gray-400 dark:bg-gray-800' : ''}`}>
+              <a key={index} href={link.href} onClick={() => setActiveLink(link.href)} className='flex items-center hover:bg-gray-400'>{link.icon} <div className='pl-2'></div> {link.label}</a>
             </button>
           ))
         }

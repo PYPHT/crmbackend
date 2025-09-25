@@ -7,13 +7,33 @@ const Admin = () => {
     const [image, setImage] = useState("https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg");
     const fileInputRef = useRef(null);
 
+    const [username, setUserName] = useState("")
+    const [password, setPassword] = useState("")
+    const [conpassword, setConfirmPassword] = useState("")
+    const [fname, setFname] = useState("")
+    const [lname, setLname] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [status, setStatus] = useState("")
+    const [type, setType] = useState("1")
+    const [department, setDepartment] = useState("")
+    const [createtime, setCreateTime] = useState("")
+    const [logintime, setLoginTime] = useState("")
+
     const handleAddAdmin = async (e) => {
         e.preventDefault()
         const formData = new FormData()
-        formData.append("username", "admin01")
-        formData.append("password", "1234")
-        formData.append("fname", "Somchai")
-        formData.append("lname", "Jaidee")
+        formData.append("username", username)
+        formData.append("password", password)
+        formData.append("fname", fname)
+        formData.append("lname", lname)
+        formData.append("email", email)
+        formData.append("phone", phone)
+        formData.append("status", status)
+        formData.append("type", type)
+        formData.append("department", department)
+        formData.append("createtime", createtime)
+        formData.append("logintime", logintime)
         formData.append("image", file)
 
         await axios.post("http://localhost:5001/admins", formData)
@@ -93,12 +113,85 @@ const Admin = () => {
                             />
                         </button>
                     </div>
-                    <form>
-                        <div className='pt-3 flex'>
-                            <div>
-                                <h3>First Name *</h3>
-                                <input type="text" name="" id="" />
+                    <form onSubmit={handleAddAdmin}>
+                        <input type="hidden" value={() => setCreateTime(Date.now.toString)} />
+                        <input type="hidden" value={() => setLoginTime(Date.now.toString)} />
+                        <input type="hidden" value={() => setStatus("0")} />
+                        <div className='p-3 flex justify-between w-full'>
+                            <div className='w-120'>
+                                <h3 className='font-medium dark:text-white text-xl'>Admin Configuration</h3>
+                                <h4 className='text-sm dark:text-gray-400'>Set User name and Password for an admin login.</h4>
+                                <div className='pt-3'>
+                                    <h3 className='font-sans dark:text-white'>User Name *</h3>
+                                    <input required type="text" onChange={(e) => setUserName(e.target.value)} className='w-full outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                </div>
+                                <div className='pt-3 flex justify-between'>
+                                    <div>
+                                        <h3 className='font-sans dark:text-white'>Password *</h3>
+                                        <input required type="password" onChange={(e) => setPassword(e.target.value)} className='outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                    </div>
+                                    <div>
+                                        <h3 className='font-sans dark:text-white'>Confirm Password *</h3>
+                                        <input required type="password" onChange={(e) => setConfirmPassword(e.target.value)} className='outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                    </div>
+                                </div>
+                                <h3 className='pt-15 font-medium dark:text-white text-xl'>Admin Basic Details</h3>
+                                <h4 className='text-sm dark:text-gray-400'>Set details for an admin info.</h4>
+                                <div className='pt-3 flex justify-between'>
+                                    <div>
+                                        <h3 className='font-sans dark:text-white'>First Name *</h3>
+                                        <input required type="text" onChange={(e) => setFname(e.target.value)} className='outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                    </div>
+                                    <div>
+                                        <h3 className='font-sans dark:text-white'>Last Name *</h3>
+                                        <input required type="text" onChange={(e) => setLname(e.target.value)} className='outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                    </div>
+                                </div>
+                                <div className='pt-3'>
+                                    <h3 className='font-sans dark:text-white'>Email *</h3>
+                                    <input required type="email" onChange={(e) => setUserName(e.target.value)} className='w-full outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                </div>
+                                <div className='pt-3'>
+                                    <h3 className='font-sans dark:text-white'>Phone *</h3>
+                                    <input required type="tel" onChange={(e) => setUserName(e.target.value)} className='w-full outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium' />
+                                </div>
                             </div>
+                            <div className='w-0.5 rounded-lg dark:bg-gray-500 bg-gray-300'></div>
+                            <div className='w-120'>
+                                <h3 className='font-medium dark:text-white text-xl'>Admin Additional Details</h3>
+                                <h4 className='text-sm dark:text-gray-400'>Set details for an admin info.</h4>
+                                <div className='pt-3'>
+                                    <h3 className='font-sans dark:text-white'>Admin type *</h3>
+                                    <select onChange={(e) => setType(e.target.value)} className='w-full outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium optional:hover:text-black'>
+                                        <option value="">-- Select Type --</option>
+                                        <option value="1">General Admin</option>
+                                        <option value="2">Supervisor</option>
+                                    </select>
+                                </div>
+                                <div className='pt-3'>
+                                    <h3 className='font-sans dark:text-white'>Admin type *</h3>
+                                    <select onChange={(e) => setType(e.target.value)} className='w-full outline-2 rounded-lg mt-2 p-2 dark:outline-gray-400 outline-gray-300 dark:text-white focus:outline-blue-600 font-medium optional:hover:text-black'>
+                                        <option value="">-- Select Type --</option>
+                                        <option value="1">General Admin</option>
+                                        <option value="2">Supervisor</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='text-end w-full'>
+                            <button
+                            type="submit"
+                            onClick={(e) => {
+                                if (password !== conpassword) {
+                                    alert("Passwords are not compatible!!");
+                                    return;
+                                }
+                                e.target.form.submit();
+                            }}
+                            className='p-3 bg-blue-600 rounded-lg text-white font-semibold w-50 cursor-pointer hover:bg-blue-700'
+                        >
+                            Save
+                        </button>
                         </div>
                     </form>
                 </div>
