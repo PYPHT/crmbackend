@@ -1,8 +1,11 @@
 const express = require("express")
 const multer = require("multer")
 const sql = require("mssql")
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 const upload = multer();
 
 const dbConfig = {
@@ -14,7 +17,7 @@ const dbConfig = {
 };
 
 app.post("/insertadmins", upload.single("image"), async (req, res) => {
-    const { username, password, fname, lname, email, phone, status, type, depart, createtime, logintime } = req.body;
+    const { username, password, fname, lname, email, phone, status, type, department, createtime, logintime } = req.body;
     try {
         const pool = await sql.connect(dbConfig);
 
@@ -25,18 +28,18 @@ app.post("/insertadmins", upload.single("image"), async (req, res) => {
             .input("lname", sql.VarChar, lname)
             .input("email", sql.VarChar, email)
             .input("phone", sql.VarChar, phone)
-            .input("imageprofile", sql.VarBinary, req.file.buffer)
+            .input("imageproflie", sql.VarBinary, req.file.buffer)
             .input("status", sql.Int, status)
             .input("type", sql.Int, type)
-            .input("depart", sql.Int, depart)
+            .input("depart", sql.Int, department)
             .input("createtime", sql.VarChar, createtime)
             .input("logintime", sql.VarChar, logintime)
             .query(`
-        INSERT INTO admins (username, password, fname, lname, email, phone, imageprofile, status, type, depart, createtime, logintime)
-        VALUES (@username, @password, @fname, @lname, @email, @phone, @imageprofile, @status, @type, @depart, @createtime, @logintime)
+        INSERT INTO admins (username, password, fname, lname, email, phone, imageproflie, status, type, depart, createtime, logintime)
+        VALUES (@username, @password, @fname, @lname, @email, @phone, @imageproflie, @status, @type, @depart, @createtime, @logintime)
       `);
 
-        res.json({ success: true });
+        res.status(200).json({ success: true });
     } catch (err) {
         console.error(err);
         res.status(500).send("Upload error");
@@ -48,9 +51,42 @@ app.post("/getadmins", async (req, res) => {
         const pool = await sql.connect(dbConfig)
 
         const result = await pool.request()
-            .query(`SELECT * FROM admins`)
+            .query(`SELECT *, CAST(imageproflie AS VARBINARY(MAX)) AS imageprofile_bin FROM admins`);
 
-        res.json(result.recordset)
+        const admins = result.recordset.map(admin => {
+            let imageBase64 = null;
+            if (admin.imageprofile_bin) {
+                imageBase64 = Buffer.from(admin.imageprofile_bin).toString('base64')
+            }
+
+            return {
+                ...admin,
+                imageUrl: imageBase64 ? `data:image/jpeg;base64,${imageBase64}` : null
+            }
+        })
+
+        res.status(200).json(admins)
+    } catch (error) {
+        console.error("DB Error:", error)
+        res.status(500).json({ error: "Database query failed" })
+    }
+})
+
+
+app.post("/getdepartment", async (req, res) => {
+    const departID = req.body.id
+    try {
+        const pool = await sql.connect(dbConfig)
+        if (departID != null) {
+            const result = await pool.request()
+                .input("id", sql.Int, departID)
+                .query(`SELECT department FROM department WHERE id = @id `)
+            res.status(200).json(result.recordset)
+        } else {
+            const result = await pool.request()
+                .query(`SELECT * FROM department`)
+            res.status(200).json(result.recordset)
+        }
     } catch (error) {
         console.error("DB Error:", error);
         res.status(500).json({ error: "Database query failed" });

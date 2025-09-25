@@ -18,7 +18,7 @@ const App = () => {
         <div className='w-80 h-screen bg-gray-200 dark:bg-gray-800 border-r-2 border-gray-100 dark:border-gray-500'>
           <Navbar />
         </div>
-        <div className='h-screen w-screen overflow-y-scroll dark:bg-gray-800 p-5'>
+        <div className='h-screen w-screen overflow-y-scroll scroll-smooth dark:bg-gray-800 p-5'>
           {hash == "" && <MyCompany/>}
           {hash == "#compa" && <MyCompany/>}
           {hash == "#admin" && <Admin />}

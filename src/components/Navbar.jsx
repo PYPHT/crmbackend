@@ -11,6 +11,7 @@ export const Navbar = () => {
     { href: "#prod", label: "Products", icon: <FaIcaons.FaBoxesStacked /> },
     { href: "#cont", label: "Contacts", icon: <FaIcaons.FaAddressBook /> },
     { href: "#task", label: "Tasks", icon: <FaIcaons.FaListCheck /> },
+    { href: "#team", label: "Team Groups", icon: <FaIcaons.FaPeopleGroup /> },
   ]
 
   return (
