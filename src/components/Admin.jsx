@@ -163,7 +163,7 @@ const Admin = () => {
                                     <td className='text-center'>
                                         <div>
                                             <button onClick={() => setOpen(true)} type="button" className='bg-orange-500/50 p-2 rounded-lg hover:bg-orange-600/50 cursor-pointer'>Edit</button>
-                                            <Dialog open={open} onClose={setOpen} className="relative z-20">
+                                            <Dialog open={open} onClose={setOpen} className="relative z-10">
                                                 <DialogBackdrop
                                                     transition
                                                     className="fixed inset-0 bg-gray-900/90 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
